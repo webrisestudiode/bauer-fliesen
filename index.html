@@ -99,7 +99,7 @@
   <a href="https://webrisestudio.de/kontakt.html" target="_blank" style="color:#C9A96E;text-decoration:underline;font-weight:700;">Website anfragen →</a>
 </div>
 <script>
-(function(){var p=new URLSearchParams(window.location.search),f=p.get('firma'),n=p.get('name');if(f&&n){var b=document.getElementById('personalized-banner');if(b){document.getElementById('banner-firma').textContent=f;document.getElementById('banner-name').textContent=n;b.style.display='block';}}})();
+(function(){var p=new URLSearchParams(window.location.search),f=p.get('firma'),n=p.get('name');if(f&&n){var b=document.getElementById('personalized-banner'),nameEl=document.getElementById('banner-name');if(b&&nameEl){nameEl.textContent=n;b.style.display='block';}}})();
 </script>
 
 <!-- Top Bar -->
