@@ -25,7 +25,7 @@
   <a href="https://webrisestudio.de/kontakt.html" target="_blank" style="color:#C9A96E;text-decoration:underline;font-weight:700;">Website anfragen →</a>
 </div>
 <script>
-(function(){var p=new URLSearchParams(window.location.search);var f=p.get('firma'),n=p.get('name'),s=p.get('stadt'),t=p.get('telefon');if(f)sessionStorage.setItem('ws_firma',f);if(n)sessionStorage.setItem('ws_name',n);if(s)sessionStorage.setItem('ws_stadt',s);if(t)sessionStorage.setItem('ws_telefon',t);var name=sessionStorage.getItem('ws_name');if(name){var b=document.getElementById('personalized-banner'),el=document.getElementById('banner-name');if(b&&el){el.textContent=name;b.style.display='block';}}})();
+(function(){var p=new URLSearchParams(window.location.search);var f=p.get('firma'),n=p.get('name'),s=p.get('stadt'),t=p.get('telefon');if(f)sessionStorage.setItem('ws_firma',f);if(n)sessionStorage.setItem('ws_name',n);if(s)sessionStorage.setItem('ws_stadt',s);if(t)sessionStorage.setItem('ws_telefon',t);var name=sessionStorage.getItem('ws_name');if(name){var b=document.getElementById('personalized-banner'),el=document.getElementById('banner-name');if(b&&el){el.textContent=name;b.style.display='block';document.documentElement.appendChild(b);document.body.style.paddingTop='50px';}}})();
 </script>
 
 <div class="top-bar">
