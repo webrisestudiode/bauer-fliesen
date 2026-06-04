@@ -202,61 +202,99 @@
 })();
 
 // ========================
-// Firma Name Replacement
+
+// ========================
+// Demo Personalisierung
 // ========================
 (function () {
-  var params = new URLSearchParams(window.location.search);
-  var firma = params.get('firma');
-  if (!firma) return;
+  // Params aus URL lesen → sessionStorage speichern
+  var p = new URLSearchParams(window.location.search);
+  ['firma','name','stadt','telefon'].forEach(function(k) {
+    if (p.get(k)) sessionStorage.setItem('ws_'+k, p.get(k));
+  });
 
-  var demoNames = [
-    'Bauer Fliesen & Naturstein München',
-    'Bauer Fliesen & Naturstein',
-    'Bauer Fliesen',
-  ];
+  var firma   = sessionStorage.getItem('ws_firma');
+  var name    = sessionStorage.getItem('ws_name');
+  var stadt   = sessionStorage.getItem('ws_stadt');
+  var telefon = sessionStorage.getItem('ws_telefon');
 
-  function replaceText(node, oldStr, newStr) {
+  // Telefon-Fallback per Stadt (wenn kein Lead-Telefon vorhanden)
+  if (!telefon) {
+    var CITY_PHONES = {
+      'Stuttgart-Mitte':'0711 48 27 93','Stuttgart-Nord':'0711 38 16 74',
+      'Stuttgart-Süd':'0711 62 93 41','Stuttgart-Ost':'0711 57 84 20',
+      'Stuttgart-West':'0711 29 54 86','Bad Cannstatt':'0711 56 83 12',
+      'Vaihingen':'0711 74 29 61','Zuffenhausen':'0711 83 47 25',
+      'Feuerbach':'0711 94 61 38','Degerloch':'0711 46 82 57',
+      'Möhringen':'0711 73 19 84','Stammheim':'0711 85 34 67',
+      'Mühlhausen':'0711 91 46 23','Böblingen':'07031 6 48 27',
+      'Sindelfingen':'07031 8 37 45','Esslingen':'0711 39 72 56',
+      'Ostfildern':'0711 48 65 31','Leinfelden-Echterdingen':'0711 97 28 43',
+      'Ludwigsburg':'07141 8 36 29','Kornwestheim':'07141 5 74 83',
+      'Bietigheim-Bissingen':'07142 4 82 67','Waiblingen':'07151 6 93 48',
+      'Fellbach':'0711 58 37 94','Schorndorf':'07181 4 72 85',
+      'Winnenden':'07195 9 38 62','Göppingen':'07161 7 48 23',
+      'Kirchheim unter Teck':'07021 8 53 46','Nürtingen':'07022 6 47 91',
+      'Leonberg':'07152 5 83 27','Ditzingen':'07156 4 69 38',
+      'Gerlingen':'07156 9 24 71','Korntal-Münchingen':'07150 3 84 56',
+      'Remshalden':'07151 8 37 24','Plochingen':'07153 6 48 92',
+      'Wendlingen':'07024 5 73 81'
+    };
+    telefon = (stadt && CITY_PHONES[stadt]) || '0711 48 27 93';
+    sessionStorage.setItem('ws_telefon', telefon);
+  }
+
+  function replaceInText(node, oldStr, newStr) {
+    if (!oldStr || oldStr === newStr) return;
     if (node.nodeType === 3) {
       if (node.textContent.indexOf(oldStr) !== -1)
         node.textContent = node.textContent.split(oldStr).join(newStr);
     } else if (node.nodeType === 1 && node.tagName !== 'SCRIPT' && node.tagName !== 'STYLE') {
       for (var i = 0; i < node.childNodes.length; i++)
-        replaceText(node.childNodes[i], oldStr, newStr);
+        replaceInText(node.childNodes[i], oldStr, newStr);
     }
   }
 
-  document.addEventListener('DOMContentLoaded', function () {
-    demoNames.forEach(function (n) {
-      replaceText(document.body, n, firma);
+  function replaceTelLinks(newTel) {
+    var clean = newTel.replace(/\s/g, '');
+    document.querySelectorAll('a[href^="tel:"]').forEach(function(a) {
+      a.setAttribute('href', 'tel:' + clean);
+      if (/^[0-9\s\-\/\+\(\)]+$/.test(a.textContent.trim()))
+        a.textContent = newTel;
     });
-    document.title = demoNames.reduce(function (t, n) { return t.split(n).join(firma); }, document.title);
-  });
-})();
+  }
 
-// ========================
-// Stadt Name Replacement
-// ========================
-(function () {
-  var params = new URLSearchParams(window.location.search);
-  var stadt = params.get('stadt');
-  if (!stadt) return;
-
-  var demoCities = ['München'];
-
-  function replaceText(node, oldStr, newStr) {
-    if (node.nodeType === 3) {
-      if (node.textContent.indexOf(oldStr) !== -1)
-        node.textContent = node.textContent.split(oldStr).join(newStr);
-    } else if (node.nodeType === 1 && node.tagName !== 'SCRIPT' && node.tagName !== 'STYLE') {
-      for (var i = 0; i < node.childNodes.length; i++)
-        replaceText(node.childNodes[i], oldStr, newStr);
+  function run() {
+    if (firma) {
+      var demoNames = ['Bauer Fliesen & Naturstein München', 'Bauer Fliesen & Naturstein', 'Bauer Fliesen'];
+      demoNames.forEach(function(n) { replaceInText(document.body, n, firma); });
+      document.title = demoNames.reduce(function(t,n){ return t.split(n).join(firma); }, document.title);
+    }
+    if (stadt) {
+      var demoCities = ['München'];
+      demoCities.forEach(function(c) { replaceInText(document.body, c, stadt); });
+      document.title = demoCities.reduce(function(t,c){ return t.split(c).join(stadt); }, document.title);
+    }
+    if (telefon) {
+      var demoPhones = ['089 456789', '089456789'];
+      demoPhones.forEach(function(ph) { replaceInText(document.body, ph, telefon); });
+      replaceTelLinks(telefon);
+    }
+    if (name) {
+      var banner = document.getElementById('personalized-banner');
+      var nameEl = document.getElementById('banner-name');
+      if (banner && nameEl) {
+        nameEl.textContent = name;
+        banner.style.display = 'block';
+        document.body.style.paddingTop = (banner.offsetHeight + 4) + 'px';
+      }
     }
   }
 
-  document.addEventListener('DOMContentLoaded', function () {
-    demoCities.forEach(function (c) {
-      replaceText(document.body, c, stadt);
-    });
-    document.title = demoCities.reduce(function (t, c) { return t.split(c).join(stadt); }, document.title);
-  });
+  // Script steht am Ende von <body> – DOM ist bereit
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', run);
+  } else {
+    run();
+  }
 })();
