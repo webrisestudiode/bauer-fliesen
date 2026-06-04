@@ -295,11 +295,14 @@
       if (banner && nameEl) {
         nameEl.textContent = name;
         banner.style.display = 'block';
-        // Zu <html> verschieben – body overflow-x:hidden bricht sonst position:fixed
         if (banner.parentNode !== document.documentElement) {
           document.documentElement.appendChild(banner);
         }
-        document.body.style.paddingTop = '50px';
+        var sp = document.getElementById('ws-banner-spacer');
+        if (sp) {
+          var h = banner.offsetHeight || 44;
+          sp.style.height = h + 'px';
+        }
       }
     }
   }

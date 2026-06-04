@@ -25,14 +25,15 @@
 </head>
 <body>
 
-<div id="personalized-banner" style="display:none; background:linear-gradient(90deg,#6B5440,#8B7355); color:white; text-align:center; padding:10px 20px; font-size:0.9rem; font-weight:600; z-index:9999; border-bottom:3px solid #C9A96E;">
+<div id="personalized-banner" style="display:none;position:fixed;top:0;left:0;right:0;width:100%; background:linear-gradient(90deg,#6B5440,#8B7355); color:white; text-align:center; padding:10px 20px; font-size:0.9rem; font-weight:600; z-index:9999; border-bottom:3px solid #C9A96E;">
   <i class="fa-solid fa-brush" style="margin-right:8px; color:#C9A96E;"></i>
   Guten Tag Herr/Frau <span id="banner-name" style="font-weight:800;"></span> – so könnte die Website von <strong id="banner-firma"></strong> aussehen &nbsp;·&nbsp;
   <a href="https://webrisestudio.de/kontakt.html" target="_blank" style="color:#C9A96E;text-decoration:underline;font-weight:700;">Website anfragen →</a>
 </div>
 <script>
-(function(){var p=new URLSearchParams(window.location.search);var f=p.get('firma'),n=p.get('name'),s=p.get('stadt'),t=p.get('telefon');if(f)sessionStorage.setItem('ws_firma',f);if(n)sessionStorage.setItem('ws_name',n);if(s)sessionStorage.setItem('ws_stadt',s);if(t)sessionStorage.setItem('ws_telefon',t);var name=sessionStorage.getItem('ws_name');if(name){var b=document.getElementById('personalized-banner'),el=document.getElementById('banner-name');if(b&&el){el.textContent=name;b.style.display='block';document.documentElement.appendChild(b);document.body.style.paddingTop='50px';}}})();
+(function(){var p=new URLSearchParams(window.location.search);var f=p.get('firma'),n=p.get('name'),s=p.get('stadt'),t=p.get('telefon');if(f)sessionStorage.setItem('ws_firma',f);if(n)sessionStorage.setItem('ws_name',n);if(s)sessionStorage.setItem('ws_stadt',s);if(t)sessionStorage.setItem('ws_telefon',t);var name=sessionStorage.getItem('ws_name');if(name){var b=document.getElementById('personalized-banner'),el=document.getElementById('banner-name');if(b&&el){el.textContent=name;b.style.display='block';document.documentElement.appendChild(b);var h=b.offsetHeight||44;var sp=document.getElementById('ws-banner-spacer');if(sp)sp.style.height=h+'px';}}})();
 </script>
+<div id="ws-banner-spacer" style="height:0;overflow:hidden;"></div>
 
 <div class="top-bar">
   <div class="container">
