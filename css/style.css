@@ -45,6 +45,7 @@ html {
 }
 
 body {
+  padding-top: 80px;
   font-family: var(--font-body);
   background-color: var(--color-light-bg);
   color: var(--color-text-dark);
@@ -285,8 +286,11 @@ p:last-child { margin-bottom: 0; }
 .navbar {
   background-color: var(--color-white);
   border-bottom: 1px solid var(--color-border);
-  position: sticky;
+  position: fixed;
   top: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
   z-index: 1000;
   box-shadow: var(--shadow-sm);
   transition: box-shadow var(--transition);
