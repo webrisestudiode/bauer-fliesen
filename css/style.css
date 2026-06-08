@@ -1,3 +1,4 @@
+html { overflow-x: hidden; }
 /* ============================================================
    Bauer Fliesen & Naturstein – Main Stylesheet
    Elegant Light Design | München
@@ -2005,4 +2006,13 @@ p:last-child { margin-bottom: 0; }
   .whatsapp-btn { bottom: 1rem; right: 1rem; }
 
   .cta-section__actions { flex-direction: column; align-items: center; }
+}
+@media (max-width: 400px) {
+  .stats-grid { grid-template-columns: 1fr 1fr; gap: 1rem; }
+  .stat-item__number { font-size: 2rem; }
+}
+/* Mobile: prevent stats-grid overflow */
+@media (max-width: 500px) {
+  .stats-grid { grid-template-columns: 1fr 1fr; gap: 1rem; width: 100%; min-width: 0; }
+  .stat-item, .stat-item__number { min-width: 0; overflow: hidden; }
 }
