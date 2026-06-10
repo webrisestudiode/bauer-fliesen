@@ -10,30 +10,33 @@
   const nav = document.querySelector('.navbar__nav');
   const cta = document.querySelector('.navbar__cta');
 
+  // Overlay
+  const navOverlay = document.createElement('div');
+  navOverlay.className = 'nav-overlay';
+  document.body.appendChild(navOverlay);
+
+  function closeBauerNav() {
+    nav.classList.remove('open');
+    if (cta) cta.classList.remove('open');
+    navOverlay.classList.remove('active');
+    toggle.setAttribute('aria-expanded', 'false');
+  }
+
   if (toggle && nav) {
     toggle.addEventListener('click', () => {
       const isOpen = nav.classList.toggle('open');
       if (cta) cta.classList.toggle('open', isOpen);
+      navOverlay.classList.toggle('active', isOpen);
       toggle.setAttribute('aria-expanded', isOpen.toString());
-      // Animate hamburger
-      const spans = toggle.querySelectorAll('span');
-      if (isOpen) {
-        spans[0].style.transform = 'rotate(45deg) translate(5px, 5px)';
-        spans[1].style.opacity = '0';
-        spans[2].style.transform = 'rotate(-45deg) translate(5px, -5px)';
-      } else {
-        spans[0].style.transform = '';
-        spans[1].style.opacity = '';
-        spans[2].style.transform = '';
-      }
+      // Kein X – drei Striche bleiben immer gleich
     });
+
+    nav.querySelectorAll('a').forEach(a => a.addEventListener('click', closeBauerNav));
+    navOverlay.addEventListener('click', closeBauerNav);
 
     // Close on outside click
     document.addEventListener('click', (e) => {
-      if (!e.target.closest('.navbar')) {
-        nav.classList.remove('open');
-        if (cta) cta.classList.remove('open');
-      }
+      if (!e.target.closest('.navbar')) closeBauerNav();
     });
   }
 

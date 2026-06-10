@@ -1990,12 +1990,34 @@ p:last-child { margin-bottom: 0; }
   .footer__bottom { flex-direction: column; text-align: center; }
   .project-detail-grid { grid-template-columns: 1fr; }
   .form-grid { grid-template-columns: 1fr; }
-  .before-after { grid-template-columns: 1fr; }
+  /* Vorher/Nachher: nebeneinander halten, Bilder kleiner */
+  .before-after { grid-template-columns: 1fr 1fr; gap: 0.5rem; }
+  .before-after__item img { height: 160px; }
+  .before-after__label { font-size: 0.65rem; padding: 0.25rem 0.6rem; }
   .service-intro { grid-template-columns: 1fr; gap: 2rem; }
 
   .contact-banner__inner { flex-direction: column; text-align: center; }
 
   .brands-grid { gap: 1.5rem; }
+
+  /* Nav Overlay */
+  .nav-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.45);
+    z-index: 89;
+  }
+  .nav-overlay.active { display: block; }
+
+  /* Footer-Links nicht über den Rand */
+  .footer__links a { white-space: normal; word-break: break-word; }
+  .footer__col { min-width: 0; overflow: hidden; }
+
+  /* Buttons mind. 44px */
+  .btn { min-height: 44px; }
+  input, textarea, select { min-height: 44px; }
+  body { overflow-x: hidden; }
 }
 
 @media (max-width: 480px) {
